@@ -5,7 +5,7 @@ type CartItem = {
   price: number;
   quantity: number;
 };
-type CartState = {
+export type CartState = {
   items: CartItem[];
 };
 const initialState: CartState = {
@@ -25,11 +25,12 @@ export const cartSlice = createSlice({
       );
       if (itemIndex >= 0) {
         state.items[itemIndex].quantity++;
+      } else {
+        state.items.push({
+          ...action.payload,
+          quantity: 1,
+        });
       }
-      state.items.push({
-        ...action.payload,
-        quantity: 1,
-      });
     },
     removeFromCart(state, action: PayloadAction<{ id: string }>) {
       const itemIndex = state.items.findIndex(
